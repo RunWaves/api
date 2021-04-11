@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Controller extends BaseController
 {
@@ -13,12 +13,12 @@ class Controller extends BaseController
 
     protected $result = [
         'success' => false,
-        'message' => 'Unknown Error.'
+        'message' => 'Unknown Error.',
     ];
 
     protected function response($response, $meta = null, $statusCode = 200)
     {
-        if (!empty($response['success'])) {
+        if (! empty($response['success'])) {
             return $this->responseSuccess($response['data'], $meta);
         } else {
             return $this->responseFail($response['message'], $statusCode);
@@ -31,14 +31,16 @@ class Controller extends BaseController
             'success' => true,
             'message' => 'Action completed.',
             'data' => $data,
-            'meta' => $meta
+            'meta' => $meta,
         ];
+
         return response($this->result, 200);
     }
 
     private function responseFail($message, $statusCode = 200)
     {
         $this->result['message'] = $message;
+
         return response($this->result, $statusCode);
     }
 

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,11 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([
     'namespace' => 'App\Http\Controllers',
-], function() {
-
+], function () {
     Route::group([
         'prefix' => 'users',
-    ], function() {
+    ], function () {
         Route::post('/', 'UserControllers@createUser');
     });
 });
