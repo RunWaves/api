@@ -11,6 +11,8 @@
         "prepare": "husky install"
     },
     "devDependencies": {
+        "@commitlint/cli": "^12.1.1",
+        "@commitlint/config-conventional": "^12.1.1",
         "axios": "^0.21",
         "husky": "^6.0.0",
         "laravel-mix": "^6.0.6",
