@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group([
+    'namespace' => 'App\Http\Controllers',
+], function() {
+
+    Route::group([
+        'prefix' => 'users',
+    ], function() {
+        Route::post('/', 'UserControllers@createUser');
+    });
 });
