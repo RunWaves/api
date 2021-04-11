@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Repositories\Users\UserRepository;
-use App\Services\Helper;
 use Carbon\Carbon;
+use App\Services\Helper;
 use Illuminate\Http\Request;
+use App\Repositories\Users\UserRepository;
 
 class UserController extends Controller
 {
@@ -36,8 +35,9 @@ class UserController extends Controller
         // Return response
         $response = [
             'success' => true,
-            'data' => $user
+            'data' => $user,
         ];
+
         return $this->response($response);
     }
 }

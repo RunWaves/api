@@ -29,5 +29,4 @@ interface UserRepository extends RepositoryInterface
      * @return string
      */
     public function generateUsername(string $name): string;
-
 }

@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 class RepositoryServiceProvider extends ServiceProvider
 {
     /**
-     * Register all repositories are registered in this map
+     * Register all repositories are registered in this map.
      *
      * @return void
      */

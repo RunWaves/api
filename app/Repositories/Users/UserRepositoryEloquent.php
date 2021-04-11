@@ -3,9 +3,8 @@
 namespace App\Repositories\Users;
 
 use App\Models\User;
-use App\Repositories\BaseRepository;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use App\Repositories\BaseRepository;
 
 class UserRepositoryEloquent extends BaseRepository implements UserRepository
 {
@@ -22,14 +21,16 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     public function checkUsername(string $username): bool
     {
         $username = $this->model()->where('username', $username)->first();
-        return !empty($username);
+
+        return ! empty($username);
     }
 
     public function generateUsername(string $name): string
     {
         do {
-            $username = Str::of($name)->lower()->slug('_') . '_' .  mt_rand(100, 999);
+            $username = Str::of($name)->lower()->slug('_') . '_' . mt_rand(100, 999);
         } while ($this->checkUsername($username));
+
         return $username;
     }
 }
