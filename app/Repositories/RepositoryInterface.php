@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 interface RepositoryInterface
 {
-    public function model(): Model|Builder;
+    public function model();
 }

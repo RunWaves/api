@@ -19,6 +19,7 @@ Route::group([
     Route::group([
         'prefix' => 'users',
     ], function () {
-        Route::post('/', 'UserControllers@createUser');
+        Route::post('register', 'UserController@register');
+        Route::post('login', 'UserController@login');
     });
 });

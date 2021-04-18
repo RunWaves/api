@@ -29,4 +29,8 @@ interface UserRepository extends RepositoryInterface
      * @return string
      */
     public function generateUsername(string $name): string;
+
+    public function register(array $data);
+
+    public function login(array $data);
 }
