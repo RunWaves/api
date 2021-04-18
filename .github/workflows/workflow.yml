@@ -21,7 +21,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.KEY_SSH }}
           script: |
-            /opt/runwaves-api
+            cd /opt/runwaves-api
             php artisan down
             git pull origin develop
             php artisan optimize:clear
