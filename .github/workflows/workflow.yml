@@ -1,4 +1,4 @@
-name: ReactJs Deploy
+name: Laravel Deploy
 
 on:
   push:
