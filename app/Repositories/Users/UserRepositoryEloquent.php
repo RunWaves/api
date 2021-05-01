@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Users;
 
+use Socialite;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Repositories\BaseRepository;
 
@@ -22,7 +24,7 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     {
         $username = $this->model()->where('username', $username)->first();
 
-        return ! empty($username);
+        return !empty($username);
     }
 
     public function generateUsername(string $name): string
@@ -32,5 +34,52 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
         } while ($this->checkUsername($username));
 
         return $username;
+    }
+
+    public function register(array $data)
+    {
+        $result = ["message" => "email is existed"];
+        $user = $this->model()->where('email', $data['email'])->first();
+        if (empty($user)) {
+            $newUser = $this->model()->create($data);
+            $accessToken = $newUser->createToken('authToken')->accessToken;
+            $result['access_token'] = $accessToken;
+            $result['user'] = $newUser;
+            unset($result["message"]);
+        }
+        return $result;
+    }
+
+    public function login(array $data)
+    {
+        $result = ['message' => 'Login failed'];
+        if (!auth()->attempt($data)) {
+            return $result;
+        }
+
+        $accessToken = auth()->user()->createToken('authToken')->accessToken;
+        unset($result["message"]);
+        $result['user'] = auth()->user();
+        $result['access_token'] = $accessToken;
+        return $result;
+    }
+
+
+    public function callBackSocialLite($provider)
+    {
+        $userSocial = Socialite::driver($provider)->stateless()->user();
+        $user = $this->model()->where(['email' => $userSocial->getEmail()])->first();
+        if (!$user) {
+            $user = $this->model()->create([
+                'name' => $userSocial->getName(),
+                'email' => $userSocial->getEmail(),
+                'provider_id' => $userSocial->getId(),
+                'provider' => $provider,
+            ]);
+        }
+        auth()->attempt($user);
+        $result['user'] = auth()->user();
+        $result['access_token'] = auth()->user()->createToken('authToken')->accessToken;
+        return $result;
     }
 }

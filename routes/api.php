@@ -18,7 +18,11 @@ Route::group([
 ], function () {
     Route::group([
         'prefix' => 'users',
+        'middleware' => ['web']
     ], function () {
-        Route::post('/', 'UserControllers@createUser');
+        Route::post('register', 'UserController@register');
+        Route::post('login', 'UserController@login');
+        Route::get('login/{provider}', 'UserController@redirect');
+        Route::get('login/{provider}/callback','UserController@callBack');
     });
 });

@@ -18,7 +18,7 @@ class BaseRepository implements RepositoryInterface
         $this->model = $model;
     }
 
-    public function model(): Model|Builder
+    public function model()
     {
         return $this->model;
     }
