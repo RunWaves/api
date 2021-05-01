@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Services\Helper;
+use Socialite;
 use Illuminate\Http\Request;
 use App\Repositories\Users\UserRepository;
 
@@ -16,13 +17,29 @@ class UserController extends Controller
         $this->userRepo = $userRepo;
     }
 
+    public function redirect($provider)
+    {
+        return Socialite::driver($provider)->redirect();
+    }
+
+    public function callBack($provider)
+    {
+        $result = $this->userRepo->callBackSocialLite($provider);
+        $response = [
+            'success' => true,
+            'data' => $result,
+        ];
+
+        return $this->response($response);
+    }
+
     public function register(Request $request)
     {
         // Validate
         $data = $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'password'=> 'required|min:8'
+            'password' => 'required|min:8'
         ]);
 
         // Sanitize input
@@ -40,11 +57,12 @@ class UserController extends Controller
         return $this->response($response);
     }
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         // Validate
         $data = $request->validate([
             'email' => 'required|email',
-            'password'=> 'required|min:8'
+            'password' => 'required|min:8'
         ]);
 
         // Sanitize input

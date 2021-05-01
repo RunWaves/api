@@ -33,4 +33,6 @@ interface UserRepository extends RepositoryInterface
     public function register(array $data);
 
     public function login(array $data);
+
+    public function callBackSocialLite(string $provider);
 }
